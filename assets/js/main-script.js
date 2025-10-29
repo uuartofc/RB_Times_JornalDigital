@@ -142,6 +142,8 @@ async function loadAdminPosts() {
     if (!postListDiv) return;
     postListDiv.innerHTML = '<p>Carregando posts para edição...</p>';
 
+    // Note que para o Admin, não dependemos do status 'authenticated' para SELECT, 
+    // pois o admin está logado e o token deve estar ativo.
     const { data: posts, error } = await supabaseClient
         .from('posts')
         .select('*')
@@ -268,8 +270,11 @@ async function deletePost(postId) {
 async function loadAllPosts() {
     const postsGrid = document.getElementById('postsGrid');
     if (!postsGrid) return;
+    
+    // Exibe o carregamento enquanto a busca no Supabase acontece
     postsGrid.innerHTML = '<p class="loading">Carregando as últimas notícias...</p>';
 
+    // Requisição: SELECT * ORDER BY data_publicacao DESC
     const { data: posts, error } = await supabaseClient
         .from('posts')
         .select('*')
@@ -313,7 +318,7 @@ async function loadAllPosts() {
                 <div class="post-tags-container">
                     ${tagsHtml}
                 </div>
-                </div>
+            </div>
         `;
         postsGrid.appendChild(postCard);
     });
@@ -382,7 +387,47 @@ async function handleSuggestionSubmit(e) {
 // =========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicialização da página de administração
+    
+    // 1. CONFIGURAÇÃO DE NAVEGAÇÃO
+    document.querySelectorAll('header nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Permite que "admin.html" navegue normalmente (não é âncora)
+            if (href && href.startsWith('#')) {
+                e.preventDefault(); 
+                const targetId = href.substring(1);
+            
+                // Alterna as classes de seção (SPA)
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(targetId).classList.add('active');
+
+                // Atualiza o estado "active" do link da navegação
+                document.querySelectorAll('header nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+
+                // Recarrega posts APENAS se for para 'home' (no clique de navegação)
+                if(targetId === 'home') loadAllPosts();
+            }
+        });
+    });
+
+    // 2. INICIALIZAÇÃO DA PÁGINA PRINCIPAL (index.html)
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        
+        // **AÇÃO CRÍTICA FIX:** Chama loadAllPosts() IMEDIATAMENTE no carregamento do DOM.
+        loadAllPosts();
+        
+        // Listener para o formulário de sugestão
+        const suggestionForm = document.getElementById('suggestionForm');
+        if(suggestionForm) {
+            suggestionForm.addEventListener('submit', handleSuggestionSubmit);
+        }
+    }
+
+    // 3. Inicialização da página de administração (admin.html)
     if (window.location.pathname.includes('admin.html')) {
         const adminLoginForm = document.getElementById('adminLoginForm');
         const adminContentDiv = document.querySelector('.admin-content');
@@ -423,7 +468,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (suggestionList) {
              suggestionList.addEventListener('click', (e) => {
                 if (e.target.classList.contains('delete-suggestion-btn')) {
-                    // Garante que o ID é tratado como número (se a coluna for INT)
                     deleteSuggestion(e.target.dataset.id); 
                 }
             });
@@ -459,37 +503,4 @@ document.addEventListener('DOMContentLoaded', () => {
             postEditorForm.addEventListener('submit', savePost);
         }
     }
-
-    // Inicialização da página principal
-    if (window.location.pathname.includes('index.html')) {
-        loadAllPosts();
-        
-        const suggestionForm = document.getElementById('suggestionForm');
-        if(suggestionForm) {
-            suggestionForm.addEventListener('submit', handleSuggestionSubmit);
-        }
-    }
-    
-    // Configuração de navegação para todas as páginas
-    document.querySelectorAll('header nav a').forEach(link => {
-        link.addEventListener('click', function(e) {
-             const href = this.getAttribute('href');
-            
-            // Permite que "admin.html" navegue normalmente (não é âncora)
-            if (href && href.startsWith('#')) {
-                e.preventDefault(); 
-                const targetId = href.substring(1);
-            
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                document.getElementById(targetId).classList.add('active');
-
-                document.querySelectorAll('header nav a').forEach(a => a.classList.remove('active'));
-                this.classList.add('active');
-
-                if(targetId === 'home') loadAllPosts();
-            }
-        });
-    });
 });
