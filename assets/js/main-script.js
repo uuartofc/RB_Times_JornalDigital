@@ -27,7 +27,6 @@ async function checkAdminPassword(password) {
 
     if (data && data.secret_key === password) {
         // AÇÃO CRÍTICA PARA RLS: Simula o login no Supabase Auth.
-        // Isso força a emissão de um JWT com a role 'authenticated' para o cliente.
         try {
             // Lembre-se que o usuário 'admin@rbtimes.com' DEVE existir no Supabase Auth com esta senha.
             const { error: authError } = await supabaseClient.auth.signInWithPassword({
@@ -134,7 +133,7 @@ async function deleteSuggestion(id) {
 }
 
 // =========================================================
-// ⚙️ LÓGICA CRUD DE POSTS (ADMIN.HTML) - MANTIDA
+// ⚙️ LÓGICA CRUD DE POSTS (ADMIN.HTML) 
 // =========================================================
 
 async function loadAdminPosts() {
@@ -142,8 +141,6 @@ async function loadAdminPosts() {
     if (!postListDiv) return;
     postListDiv.innerHTML = '<p>Carregando posts para edição...</p>';
 
-    // Note que para o Admin, não dependemos do status 'authenticated' para SELECT, 
-    // pois o admin está logado e o token deve estar ativo.
     const { data: posts, error } = await supabaseClient
         .from('posts')
         .select('*')
@@ -264,7 +261,7 @@ async function deletePost(postId) {
 }
 
 // =========================================================
-// 🖼️ FRONTEND (INDEX.HTML) - ATUALIZADO COM TAGS
+// 🖼️ FRONTEND (INDEX.HTML) 
 // =========================================================
 
 async function loadAllPosts() {
@@ -299,7 +296,7 @@ async function loadAllPosts() {
 
         const imageUrl = post.image_url && post.image_url.trim() !== '' 
             ? post.image_url 
-            : 'images/default-cover.png'; 
+            : 'assets/imgs/default-cover.png'; // Caminho corrigido para consistência
             
         // Lógica para gerar as tags HTML
         const tagsHtml = post.tags && post.tags.length > 0
@@ -344,7 +341,7 @@ async function showPostDetails(postId) {
     
     const imageUrl = post.image_url && post.image_url.trim() !== '' 
         ? post.image_url 
-        : 'images/default-cover.png'; 
+        : 'assets/imgs/default-cover.png'; 
 
     document.getElementById('detailImage').src = imageUrl;
     document.getElementById('detailTitle').textContent = post.titulo;
@@ -382,9 +379,30 @@ async function handleSuggestionSubmit(e) {
     setTimeout(() => messageEl.style.display = 'none', 5000);
 }
 
+
 // =========================================================
-// 🚀 INICIALIZAÇÃO E LISTENERS
+// 🚀 FUNÇÃO E LISTENERS DE INICIALIZAÇÃO (CORREÇÃO APLICADA)
 // =========================================================
+
+/**
+ * Função dedicada para carregar os posts se a seção Home estiver ativa.
+ * Isso resolve o problema de carregamento inicial em SPAs.
+ */
+function initializeHomeSection() {
+    const homeSection = document.getElementById('home');
+    // Verifica se a seção home existe E se ela tem a classe 'active'
+    if (homeSection && homeSection.classList.contains('active')) {
+        loadAllPosts();
+        
+        // Listener para o formulário de sugestão (só precisa ser anexado uma vez)
+        const suggestionForm = document.getElementById('suggestionForm');
+        if(suggestionForm && !suggestionForm.dataset.listenerAttached) {
+            suggestionForm.addEventListener('submit', handleSuggestionSubmit);
+            suggestionForm.dataset.listenerAttached = 'true'; // Previne múltiplos listeners
+        }
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -417,14 +435,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. INICIALIZAÇÃO DA PÁGINA PRINCIPAL (index.html)
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
         
-        // **AÇÃO CRÍTICA FIX:** Chama loadAllPosts() IMEDIATAMENTE no carregamento do DOM.
-        loadAllPosts();
-        
-        // Listener para o formulário de sugestão
-        const suggestionForm = document.getElementById('suggestionForm');
-        if(suggestionForm) {
-            suggestionForm.addEventListener('submit', handleSuggestionSubmit);
-        }
+        // **AÇÃO CORRIGIDA:** Chama a inicialização da Home
+        initializeHomeSection(); 
     }
 
     // 3. Inicialização da página de administração (admin.html)
