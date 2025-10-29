@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+      <link rel="shortcut icon" href="assets/imgs/logo_sem_fundo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <main class="content">
+
+            <div class="admin-login-card">
+                <h2>Admin Login</h2>
+                <form id="adminLoginForm">
+                    <label for="adminPassword">Senha:</label>
+                    <input type="password" id="adminPassword" placeholder="Insira a senha de administração" required>
+                    <button type="submit">Acessar Painel</button>
+                </form>
+            </div>
+
+            <div class="admin-content" style="display: none;">
+                
+                <div style="text-align: right; margin-bottom: 30px;">
+                    <button id="logoutBtn" style="background-color: var(--error-color);">Logout <i class="fas fa-sign-out-alt"></i></button>
+                </div>
+                
+                <div class="suggestion-list-card">
+                    <h2>Gerenciar Sugestões de Posts</h2>
+                    <p>Ideias enviadas pelo público.</p>
+                    <div id="suggestionList" class="suggestion-list">
+                        </div>
+                </div>
+
+                <div class="admin-content-card">
+                    <h2>Gerenciar Posts</h2>
+                    <button id="addPostBtn" class="admin-action-btn">Adicionar Novo Post</button>
+                    
+                    <div id="postList" class="post-list">
+                    </div>
+                </div>
+
+                <div id="postForm" class="form-card" style="display: none;">
+                    <h3>Editor de Postagem</h3>
+                    <form id="postEditorForm">
+                        <input type="hidden" id="postId">
+                        <label for="postTitle">Título do Post:</label>
+                        <input type="text" id="postTitle" required>
+
+                        <label for="postAuthor">Autor:</label>
+                        <input type="text" id="postAuthor" required>
+
+                        <label for="postDate">Data de Publicação:</label>
+                        <input type="date" id="postDate">
+
+                        <label for="postImage">URL da Imagem de Capa:</label>
+                        <input type="url" id="postImage">
+                        
+                        <label for="postShortDesc">Resumo (Descrição Curta):</label>
+                        <textarea id="postShortDesc" required rows="2"></textarea>
+                        
+                        <label for="postContent">Conteúdo Completo (Aceita HTML):</label>
+                        <textarea id="postContent" rows="10"></textarea>
+
+                        <label for="postTags">Tags (separar por vírgula):</label>
+                        <input type="text" id="postTags">
+                        
+                        <button type="submit">Salvar Postagem</button>
+                        <button type="button" id="cancelEditBtn" style="background-color: #6c757d;">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/main-script.js"></script>
+</body>
+</html>

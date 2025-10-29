@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RB Times | Notícias e Novidades</title>
+    <link rel="shortcut icon" href="assets/imgs/logo_sem_fundo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+    <div class="header-container">
+        <div class="site-title-container">
+            <img src="assets/imgs/logo_sem_fundo.png" alt="Ícone do Jornal" class="header-icon">
+            <div class="logo">RB <span>Times</span></div>
+        </div>
+        <nav>
+            <a href="#home" class="active">Posts</a>
+            <a href="#about">Sobre</a>
+            <a href="#suggestions-form">Sugestões</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+    </div>
+</header>
+
+    <div class="container">
+        <section id="home" class="page-section active">
+            <h1>Últimas Notícias</h1>
+            <div id="postsGrid" class="posts-grid">
+                </div>
+        </section>
+
+        <section id="post-details" class="page-section">
+            <a href="#home" class="back-button" onclick="document.getElementById('post-details').classList.remove('active'); document.getElementById('home').classList.add('active');"><i class="fas fa-arrow-left"></i> Voltar para Posts</a>
+            <div class="detail-post-container">
+                <div class="detail-header">
+                    <img id="detailImage" src="images/default-cover.png" alt="Imagem de capa do Post">
+                </div>
+                
+                <h2 id="detailTitle">Título do Post</h2>
+                
+                <div class="detail-meta">
+                    <span id="detailDate"></span> | Publicado por: <span id="detailAuthor"></span>
+                </div>
+
+                <div id="detailContent">
+                    </div>
+                
+                <div id="detailTags">
+                    </div>
+            </div>
+        </section>
+        
+        <section id="about" class="page-section">
+            <h1>Sobre o Projeto</h1>
+            <p>Este é um projeto de demonstração de um Jornal Digital utilizando Supabase como backend e gerenciamento completo de conteúdo via painel administrativo. O foco é em desempenho, facilidade de uso e autenticação simplificada.</p>
+            <p>Criado por um aluno com foco em desenvolvimento web e sistemas dinâmicos.</p>
+        </section>
+        
+        <section id="suggestions-form" class="page-section">
+            <h1>Sugira uma <span>Ideia</span></h1>
+            <div class="form-card">
+                <p>Tem uma ideia incrível para um post ou uma sugestão para o jornal? Envie para nós!</p>
+                <form id="suggestionForm">
+                    <label for="sugestaoName">Seu Nome:</label>
+                    <input type="text" id="sugestaoName" required>
+                    
+                    <label for="sugestaoEmail">Seu E-mail (opcional):</label>
+                    <input type="email" id="sugestaoEmail">
+                    
+                    <label for="sugestaoIdea">Sua Ideia/Sugestão:</label>
+                    <textarea id="sugestaoIdea" rows="5" required></textarea>
+                    
+                    <button type="submit">Enviar Ideia</button>
+                    <p id="sugestaoMessage" class="message" style="display:none;"></p>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/main-script.js"></script>
+</body>
+
+</html>

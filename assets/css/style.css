@@ -1,0 +1,432 @@
+/* =========================================================
+   TEMA: JORNAL DIGITAL - MODERNO AZUL/BRANCO
+   ========================================================= */
+:root {
+    --primary-color: #0056b3; /* Azul mais vibrante para títulos e botões */
+    --secondary-color: #007bff; /* Azul de Destaque */
+    --background-color: #f8f9fa; /* Fundo levemente off-white */
+    --text-color: #212529; /* Texto Preto sutil */
+    --border-color: #e9ecef; /* Linha de separação muito clara */
+    --card-background: #ffffff; /* Fundo de card branco puro */
+    --header-background: #ffffff; /* Header branco */
+    --header-text-color: var(--primary-color); /* Texto do header em azul */
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fonte moderna */
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6; /* Aumenta o espaçamento da linha */
+    min-height: 100vh;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+/* =========================================================
+   HEADER MODERNO
+   ========================================================= */
+header {
+    background-color: var(--header-background);
+    color: var(--header-text-color);
+    padding: 15px 40px;
+    box-shadow: var(--shadow-light); /* Sombra suave */
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 2.5em;
+    font-weight: 700; /* Removendo itálico e mantendo negrito */
+    letter-spacing: 1px;
+    color: var(--primary-color); /* Corrigindo cor no header branco */
+}
+
+.logo span {
+    color: var(--secondary-color);
+}
+
+header nav a {
+    color: var(--text-color);
+    margin-left: 25px;
+    font-size: 1em;
+    padding: 8px 0;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom 0.2s, color 0.2s;
+}
+
+header nav a:hover, header nav a.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Agrupa o ícone e o texto do logo para alinhamento */
+.site-title-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para o Ícone */
+.header-icon {
+    width: 50px; /* Tamanho reduzido para um visual mais clean */
+    height: 50px;
+    margin-right: 15px;
+}
+
+
+/* =========================================================
+   LAYOUT E SEÇÕES
+   ========================================================= */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-section {
+    display: none;
+    padding: 40px 0;
+    border-top: none; /* Removendo borda de separação */
+}
+
+.page-section.active {
+    display: block;
+}
+
+h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--primary-color);
+    border-bottom: none; /* Remove a linha grossa */
+    padding-bottom: 0;
+    margin-bottom: 40px; /* Mais espaço */
+    text-transform: none;
+}
+
+/* =========================================================
+   POSTS GRID (HOME)
+   ========================================================= */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px; /* Aumenta o espaçamento */
+}
+
+.post-card {
+    background-color: var(--card-background);
+    border: none;
+    border-radius: 8px; /* Cantos arredondados */
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Sombra suave */
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.post-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 17, 255, 0.562);
+    transform: translateY(-4px);
+}
+
+.post-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: none;
+}
+
+.card-info {
+    padding: 20px;
+}
+
+.post-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.post-summary {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+.post-meta {
+    font-size: 0.9em;
+    color: #999;
+}
+
+.post-meta span {
+    margin-right: 15px;
+}
+
+/* =========================================================
+   DETALHES DO POST
+   ========================================================= */
+.detail-header img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    margin-bottom: 25px;
+    border-radius: 4px; /* Adicionando borda suave */
+}
+
+#detailTitle {
+    font-size: 3em;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.detail-meta {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    color: #777;
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+#detailContent {
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+#detailContent p {
+    margin-bottom: 1.5em;
+}
+
+#detailTags .tag {
+    display: inline-block;
+    background-color: #e9f5ff; /* Fundo azul muito claro */
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    margin-top: 20px;
+    margin-right: 5px;
+    font-weight: 600;
+}
+
+.back-button {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+    margin-bottom: 30px;
+    cursor: pointer;
+    display: block;
+}
+
+/* =========================================================
+   FORMULÁRIOS E ADMIN UI
+   ========================================================= */
+.form-card, .admin-login-card, .admin-content-card, .suggestion-list-card {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    color: var(--text-color);
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+.admin-action-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.message.error {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.message.success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+/* Listagem de Posts Admin */
+.post-list .post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.post-list .post-item h3 {
+    font-size: 1.2em;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.post-list .post-item p {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.post-list .post-item button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    font-size: 0.9em;
+}
+
+/* Listagem de Sugestões Admin */
+.suggestion-list .suggestion-item {
+    padding: 15px 0;
+    border-bottom: 1px dashed var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestion-item p {
+    margin-bottom: 5px;
+}
+
+.suggestion-item .meta {
+    font-size: 0.8em;
+    color: #999;
+}
+
+
+/* =========================================================
+   MEDIA QUERIES
+   ========================================================= */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+    }
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .logo {
+        margin-bottom: 15px;
+    }
+    header nav a {
+        margin: 0 10px;
+        font-size: 1em;
+    }
+    .container {
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+    #detailTitle {
+        font-size: 2em;
+    }
+}
+
+/* =========================================================
+   ESTILO PARA TAGS NA HOME (Post Cards)
+   ========================================================= */
+
+.post-tags-container {
+    /* Pequeno espaçamento superior para separar das informações de meta */
+    margin-top: 10px; 
+    /* Garante que as tags fiquem visíveis no card */
+    min-height: 20px; 
+}
+
+.post-tag {
+    display: inline-block;
+    /* Usa a cor de destaque do seu tema */
+    background-color: var(--secondary-color); 
+    color: var(--background-color); /* Texto em branco para contraste */
+    font-size: 0.7em;
+    padding: 2px 7px;
+    margin-right: 5px;
+    margin-bottom: 5px; /* Quebra de linha se tiver muitas tags */
+    border-radius: 3px; 
+    font-weight: 600; /* Levemente mais negrito */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    /* Uma sombra sutil se você estiver usando shadow-light */
+    box-shadow: var(--shadow-light, none); 
+}
+
+/* Garante que as tags não fiquem muito perto da borda inferior no card */
+.post-card .card-info {
+    padding-bottom: 15px;
+}
